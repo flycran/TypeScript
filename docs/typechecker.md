@@ -13,7 +13,7 @@ const program = ts.createProgram(['foo.ts'], { strict: true });
 const checker = program.getTypeChecker();
 ```
 
-:::note
+:::info
 TypeChecker 包含大量内部方法（标注 `@internal`），这些方法**存在于运行时对象**但不在 `typescript.d.ts` 中声明，不保证版本稳定性，需通过 `(checker as any).xxx()` 访问。以下文档将公开 API 列在前，`@internal` 方法集中在末尾。
 :::
 

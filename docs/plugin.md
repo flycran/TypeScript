@@ -28,7 +28,8 @@ TypeScript 4.x+ 提供完善的 Language Service Plugin 机制，允许在编辑
 }
 ```
 
-:::note
+:::info
+
 - 插件只在 **Language Service 模式**下运行（即 tsserver / IDE 中），不影响 `tsc` 编译输出。
 - 若使用 `swc` 编译，插件仍可用于 IDE 类型提示，两者互不干扰。
 :::
