@@ -5,6 +5,9 @@ export default defineConfig({
   base: '/TypeScript/',
   title: "TypeScript API 文档",
   description: "TypeScript 编译器 API 文档",
+  head: [
+    ['link', { rel: 'icon', href: 'https://www.typescriptlang.org/favicon-32x32.png' }]
+  ],
   themeConfig: {
     search: {
       provider: 'local'
