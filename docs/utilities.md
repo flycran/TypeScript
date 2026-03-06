@@ -1,8 +1,3 @@
----
-id: utilities
-title: 实用函数 & 类型守卫
-sidebar_position: 9
----
 
 # 实用函数 & 类型守卫
 

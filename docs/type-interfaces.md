@@ -1,8 +1,3 @@
----
-id: type-interfaces
-title: 类型层接口
-sidebar_position: 3
----
 
 # 类型层接口
 

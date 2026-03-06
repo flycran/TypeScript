@@ -1,8 +1,3 @@
----
-id: type-nodes
-title: AST 类型节点
-sidebar_position: 6
----
 
 # AST 类型节点
 

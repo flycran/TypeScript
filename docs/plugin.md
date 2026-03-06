@@ -1,8 +1,3 @@
----
-id: plugin
-title: Language Service Plugin
-sidebar_position: 8
----
 
 # Language Service Plugin
 

@@ -1,8 +1,3 @@
----
-id: typechecker
-title: TypeChecker
-sidebar_position: 5
----
 
 # TypeChecker
 

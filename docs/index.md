@@ -1,8 +1,3 @@
----
-id: intro
-title: TypeScript 5.9 API 参考
-sidebar_position: 1
----
 
 # TypeScript 5.9 API 参考文档
 

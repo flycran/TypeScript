@@ -1,8 +1,3 @@
----
-id: language-service
-title: Language Service
-sidebar_position: 7
----
 
 # Language Service
 
