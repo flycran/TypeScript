@@ -6,6 +6,9 @@ export default defineConfig({
   title: "TypeScript API 文档",
   description: "TypeScript 编译器 API 文档",
   themeConfig: {
+    search: {
+      provider: 'local'
+    },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首页', link: '/' },
