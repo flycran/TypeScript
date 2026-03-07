@@ -191,26 +191,65 @@ interface ObjectType extends Type {
 
 ### ObjectFlags
 
-| 标志 | 说明 |
-|------|------|
-| `Class` | `class` 声明 |
-| `Interface` | `interface` 声明 |
-| `Reference` | 泛型实例化引用，如 `Array<string>` |
-| `Tuple` | 元组类型 |
-| `Anonymous` | 匿名对象类型 |
-| `Mapped` | 映射类型 |
-| `Instantiated` | 已实例化的映射类型 |
-| `ObjectLiteral` | 对象字面量类型 |
-| `EvolvingArray` | 推演数组（内部） |
-| `ReverseMapped` | 反向映射类型 |
-| `JsxAttributes` | JSX 属性类型 |
-| `FreshLiteral` | Fresh 字面量对象（溢出检查用） |
-| `ArrayLiteral` | 数组字面量类型 |
-| `ClassOrInterface` | `Class \| Interface`（复合） |
-| `VarianceComputed` | 协变已计算 |
-| `IsGenericObjectType` | 泛型对象类型 |
-| `IsGenericIndexType` | 泛型索引类型 |
-| `IsGenericType` | `IsGenericObjectType \| IsGenericIndexType`（复合） |
+| 标志 | 值 | 说明 |
+|------|----|----|
+| `Class` | 1 | `class` 声明 |
+| `Interface` | 2 | `interface` 声明 |
+| `Reference` | 4 | 泛型实例化引用，如 `Array<string>` |
+| `Tuple` | 8 | 元组类型 |
+| `Anonymous` | 16 | 匿名对象类型 |
+| `Mapped` | 32 | 映射类型 |
+| `Instantiated` | 64 | 已实例化的映射类型 |
+| `ObjectLiteral` | 128 | 对象字面量类型 |
+| `EvolvingArray` | 256 | 推演数组（内部） |
+| `ObjectLiteralPatternWithComputedProperties` | 512 | 含计算属性的对象字面量模式 |
+| `ReverseMapped` | 1024 | 反向映射类型 |
+| `JsxAttributes` | 2048 | JSX 属性类型 |
+| `JSLiteral` | 4096 | JS 字面量类型 |
+| `FreshLiteral` | 8192 | Fresh 字面量对象（溢出检查用） |
+| `ArrayLiteral` | 16384 | 数组字面量类型 |
+| `ContainsSpread` | 2097152 | 含散展的对象类型 |
+| `ObjectRestType` | 4194304 | 对象 rest 类型 |
+| `InstantiationExpressionType` | 8388608 | 实例化表达式类型（`F<T>`） |
+| `SingleSignatureType` | 134217728 | 单一签名类型 |
+| `ClassOrInterface` | 3 | `Class \| Interface`（复合） |
+
+---
+
+## InstantiableType
+
+`InstantiableType` 是所有“可实例化”类型的基类，包括 `TypeParameter`、`ConditionalType`、`IndexedAccessType`、`IndexType`、`TemplateLiteralType`、`StringMappingType`。
+
+```ts
+interface InstantiableType extends Type {}
+```
+
+---
+
+## StringMappingType
+
+`StringMappingType` 对应 `Uppercase<T>` / `Lowercase<T>` / `Capitalize<T>` / `Uncapitalize<T>` 等内建字符串映射类型（`TypeFlags.StringMapping`）。
+
+```ts
+interface StringMappingType extends InstantiableType {
+  symbol: Symbol;  // 对应的内建符号（Uppercase/Lowercase 等）
+  type: Type;      // 被映射的类型
+}
+```
+
+---
+
+## SubstitutionType
+
+`SubstitutionType` 是 TypeChecker 内部使用的替换类型（`TypeFlags.Substitution`），在条件类型的真分支推断中用于将类型局限为更精确的类型。
+
+```ts
+interface SubstitutionType extends InstantiableType {
+  objectFlags: ObjectFlags;
+  baseType: Type;    // 局限前的基类型（T）
+  constraint: Type;  // 局限后的类型（负载更精确的类型）
+}
+```
 
 ---
 

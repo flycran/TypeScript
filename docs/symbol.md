@@ -16,9 +16,6 @@ interface Symbol {
   members?: SymbolTable;
   exports?: SymbolTable;
   globalExports?: SymbolTable;
-  id: number;
-  mergeId: number;
-  parent?: Symbol;
 }
 ```
 
@@ -33,9 +30,9 @@ interface Symbol {
 | `members` | `SymbolTable?` | 成员符号表（类 / 接口成员） |
 | `exports` | `SymbolTable?` | 导出符号表 |
 | `globalExports` | `SymbolTable?` | 全局导出（`declare global`） |
-| `id` | `number` | 唯一数字 ID |
-| `mergeId` | `number` | 声明合并 ID |
-| `parent` | `Symbol?` | 父符号（如类方法的父符号是类） |
+| `id` `@internal` | `number` | 唯一数字 ID（`@internal`，运行时存在但不在公开 API 中） |
+| `mergeId` `@internal` | `number` | 声明合并 ID（`@internal`） |
+| `parent` `@internal` | `Symbol?` | 父符号（如类方法的父符号是类）（`@internal`） |
 
 ### 方法
 
@@ -102,6 +99,38 @@ interface Symbol {
 | `Classifiable` | `Class \| Enum \| TypeAlias \| Interface \| TypeParameter \| Module \| Alias` | 可分类 |
 | `Enum` | `RegularEnum \| ConstEnum` | 所有枚举 |
 | `Module` | `ValueModule \| NamespaceModule` | 所有模块 |
+| `ModuleMember` | — | 模块内允许的成员类型 |
+| `ExportHasLocal` | — | 导出且有局部实录 |
+| `BlockScoped` | `BlockScopedVariable \| Class \| Enum` | 块作用域绑定 |
+| `PropertyOrAccessor` | `Property \| GetAccessor \| SetAccessor` | 属性或访问器 |
+| `ClassMember` | `Method \| Accessor \| Property` | 类成员 |
+| `All` | `-1` | 所有标志 |
+
+### Excludes 系列（声明冲突检测）
+
+Excludes 标志用于声明合并阶段，表示“某种符号不允许与哪些其他符号共存”。一般不直接使用。
+
+| 标志 | 说明 |
+|------|------|
+| `FunctionScopedVariableExcludes` | `var` 声明不能与哪些符号共存 |
+| `BlockScopedVariableExcludes` | `let/const` 不能与任何其他值符号共存 |
+| `ParameterExcludes` | 参数不能与任何其他值符号共存 |
+| `PropertyExcludes` | 属性无冲突限制 |
+| `EnumMemberExcludes` | 枚举成员的共存限制 |
+| `FunctionExcludes` | 函数的共存限制 |
+| `ClassExcludes` | `class` 的共存限制 |
+| `InterfaceExcludes` | `interface` 的共存限制（可合并） |
+| `RegularEnumExcludes` | 普通 `enum` 的共存限制 |
+| `ConstEnumExcludes` | `const enum` 的共存限制 |
+| `ValueModuleExcludes` | `module/namespace` 的共存限制 |
+| `NamespaceModuleExcludes` | 纯类型命名空间无冲突限制 |
+| `MethodExcludes` | 方法的共存限制 |
+| `GetAccessorExcludes` | `getter` 的共存限制 |
+| `SetAccessorExcludes` | `setter` 的共存限制 |
+| `AccessorExcludes` | 访问器通用共存限制 |
+| `TypeParameterExcludes` | 类型参数的共存限制 |
+| `TypeAliasExcludes` | `type` 别名的共存限制 |
+| `AliasExcludes` | 导入别名的共存限制 |
 
 ---
 

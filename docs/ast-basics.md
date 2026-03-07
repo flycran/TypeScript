@@ -64,7 +64,11 @@ interface Node extends ReadonlyTextRange {
 
 ## SyntaxKind
 
-`SyntaxKind` 是超大枚举（~400 值），以下列出**类型系统高频值**。完整枚举见 `typescript.d.ts`。
+`SyntaxKind` 是超大枚举（共约 360 个原始值），以下列出**类型系统高频值**。
+
+:::tip
+查看完整的 SyntaxKind 分类枚举，请前往 [SyntaxKind 完整枚举](./syntax-kind)。
+:::
 
 ### 类型节点相关
 
@@ -125,24 +129,47 @@ interface Node extends ReadonlyTextRange {
 
 节点标志位，通过 `node.flags` 访问。
 
-| 标志 | 说明 |
-|------|------|
-| `None = 0` | 无标志 |
-| `Let` | `let` 声明 |
-| `Const` | `const` 声明 |
-| `NestedNamespace` | 嵌套命名空间 |
-| `Synthesized` | 编译器合成节点（非源码原生） |
-| `Namespace` | `namespace` 声明 |
-| `ExportContext` | export 上下文 |
-| `ContainsThis` | 包含 `this` 引用 |
-| `HasImplicitReturn` | 有隐式 `return` |
-| `HasExplicitReturn` | 有显式 `return` |
-| `GlobalAugmentation` | 全局扩充 `declare global` |
-| `HasAsyncFunctions` | 含异步函数 |
-| `Ambient` | ambient 上下文（`.d.ts` / `declare`） |
-| `JsonFile` | JSON 文件解析模式 |
-| `Deprecated` | 已弃用（TS 5.0+） |
-| `BlockScoped` | `Let \| Const`（复合） |
+### 基础标志
+
+| 标志 | 值 | 说明 |
+|------|-----|------|
+| `None` | `0` | 无标志 |
+| `Let` | `1` | `let` 声明 |
+| `Const` | `2` | `const` 声明 |
+| `Using` | `4` | `using` 声明（ES2026 Explicit Resource Management） |
+| `AwaitUsing` | `6` | `await using` 声明 |
+| `NestedNamespace` | `8` | 嵌套命名空间（`A.B.C` 形式） |
+| `Synthesized` | `16` | 编译器合成节点（非源码原生） |
+| `Namespace` | `32` | `namespace` 声明 |
+| `OptionalChain` | `64` | 可选链节点（`?.`） |
+| `ExportContext` | `128` | export 上下文 |
+| `ContainsThis` | `256` | 包含 `this` 引用 |
+| `HasImplicitReturn` | `512` | 有隐式 `return` |
+| `HasExplicitReturn` | `1024` | 有显式 `return` |
+| `GlobalAugmentation` | `2048` | 全局扩充 `declare global` |
+| `HasAsyncFunctions` | `4096` | 含异步函数 |
+| `DisallowInContext` | `8192` | 禁止 `in` 运算符的上下文（如 for 初始化） |
+| `YieldContext` | `16384` | `yield` 上下文（生成器函数体内） |
+| `DecoratorContext` | `32768` | 装饰器上下文 |
+| `AwaitContext` | `65536` | `await` 上下文（async 函数体内） |
+| `DisallowConditionalTypesContext` | `131072` | 禁止条件类型的上下文 |
+| `ThisNodeHasError` | `262144` | 本节点存在解析错误 |
+| `JavaScriptFile` | `524288` | JavaScript 文件中的节点 |
+| `ThisNodeOrAnySubNodesHasError` | `1048576` | 本节点或子节点存在错误 |
+| `HasAggregatedChildData` | `2097152` | 子节点数据已聚合（内部缓存标志） |
+| `JSDoc` | `16777216` | JSDoc 节点 |
+| `JsonFile` | `134217728` | JSON 文件解析模式 |
+
+### 复合 / 合成标志
+
+| 标志 | 值 | 说明 |
+|------|-----|------|
+| `BlockScoped` | `7` | `Let \| Const \| Using`（块作用域声明） |
+| `Constant` | `6` | `Const \| Using`（不可重赋值声明） |
+| `ReachabilityCheckFlags` | `1536` | `HasImplicitReturn \| HasExplicitReturn` |
+| `ReachabilityAndEmitFlags` | `5632` | `ReachabilityCheckFlags \| HasAsyncFunctions` |
+| `ContextFlags` | `101441536` | 所有上下文标志的联合（`DisallowInContext` 等） |
+| `TypeExcludesFlags` | `81920` | `YieldContext \| AwaitContext`（类型推断时需排除的上下文） |
 
 ---
 

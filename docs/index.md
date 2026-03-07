@@ -11,6 +11,7 @@
 | 章节 | 内容 |
 |------|------|
 | [基础 AST 接口](./ast-basics) | `Node`、`SourceFile`、`SyntaxKind`、`NodeFlags`、`ModifierFlags` |
+| [SyntaxKind 完整枚举](./syntax-kind) | `SyntaxKind` 全量（约 360 值）分类列表 |
 | [类型层接口](./type-interfaces) | `Type`、`TypeFlags`、所有类型子接口（Union/Conditional/Mapped…） |
 | [Symbol 接口](./symbol) | `Symbol`、`SymbolFlags`、`SymbolTable`、`SymbolDisplayPart` |
 | [TypeChecker](./typechecker) | 从节点/符号获取类型、类型操作、关系判断、签名解析、诊断 |

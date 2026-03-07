@@ -12,6 +12,10 @@ export default defineConfig({
     search: {
       provider: 'local'
     },
+    outline: {
+      level: [2, 3],
+      label: '本页目录'
+    },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首页', link: '/' },
@@ -24,6 +28,7 @@ export default defineConfig({
         text: '快速入门',
         items: [
           { text: 'AST 基础', link: '/ast-basics' },
+          { text: 'SyntaxKind 完整枚举', link: '/syntax-kind' },
           { text: '工具函数', link: '/utilities' },
         ]
       },

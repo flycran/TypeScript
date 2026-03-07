@@ -158,15 +158,74 @@ sigs.forEach(sig => {
 | `symbolToTypeParameterDeclarations(symbol, enclosing?, flags?): NodeArray<TypeParameterDeclaration> \| undefined` | 符号 → 类型参数声明列表 |
 | `symbolToParameterDeclaration(symbol, enclosing?, flags?): ParameterDeclaration \| undefined` | 符号 → 参数声明节点 |
 
-### TypeFormatFlags（常用）
+### TypeFormatFlags
 
-```ts
-ts.TypeFormatFlags.NoTruncation           // 不截断（默认会截断长类型）
-ts.TypeFormatFlags.WriteArrayAsGenericType // T[] → Array<T>
-ts.TypeFormatFlags.UseAliasDefinedOutsideCurrentScope
-ts.TypeFormatFlags.InTypeAlias            // 在 type 别名内（避免递归展开）
-ts.TypeFormatFlags.MultilineObjectLiterals // 对象类型换行
-```
+`TypeFormatFlags` 用于 `typeToString` / `typePredicateToString` 等方法的格式化输出。
+
+| 标志 | 值 | 说明 |
+|------|-------|------|
+| `None` | 0 | 默认 |
+| `NoTruncation` | 1 | 不截断长类型（默认会截断） |
+| `WriteArrayAsGenericType` | 2 | `T[]` 写为 `Array<T>` |
+| `GenerateNamesForShadowedTypeParams` | 4 | 为被遥蔽的类型参数生成名称 |
+| `UseStructuralFallback` | 8 | 求解失败时尝试结构表示 |
+| `WriteTypeArgumentsOfSignature` | 32 | 输出签名的类型实参 |
+| `UseFullyQualifiedType` | 64 | 使用全限定类型名 |
+| `SuppressAnyReturnType` | 256 | 隐藏 `any` 返回类型 |
+| `MultilineObjectLiterals` | 1024 | 对象类型换行 |
+| `WriteClassExpressionAsTypeLiteral` | 2048 | 类表达式写为类型字面量 |
+| `UseTypeOfFunction` | 4096 | 写为 `typeof fn` 而非展开 |
+| `OmitParameterModifiers` | 8192 | 省略参数修饰符 |
+| `UseAliasDefinedOutsideCurrentScope` | 16384 | 使用当前作用域外定义的别名 |
+| `AllowUniqueESSymbolType` | 1048576 | 允许 `unique symbol` 输出 |
+| `AddUndefined` | 131072 | 添加 `\| undefined` |
+| `WriteArrowStyleSignature` | 262144 | 使用箭头函数风格输出签名 |
+| `InArrayType` | 524288 | 表示当前在数组类型内（控制括号） |
+| `InElementType` | 2097152 | 元组/数组元素类型内 |
+| `InFirstTypeArgument` | 4194304 | 第一个类型实参内 |
+| `InTypeAlias` | 8388608 | `type` 别名内（避免递归展开） |
+| `OmitThisParameter` | 33554432 | 省略 `this` 参数 |
+| `UseSingleQuotesForStringLiteralType` | 268435456 | 字符串字面量类型使用单引号 |
+| `NoTypeReduction` | 536870912 | 禁止类型化简 |
+| `NodeBuilderFlagsMask` | 848330095 | `NodeBuilderFlags` 的掩码 |
+
+### NodeBuilderFlags
+
+`NodeBuilderFlags` 用于 `typeToTypeNode` / `symbolToEntityName` 等将类型/符号转为 AST 节点的操作。
+
+| 标志 | 值 | 说明 |
+|------|-------|------|
+| `None` | 0 | 默认 |
+| `NoTruncation` | 1 | 不截断 |
+| `WriteArrayAsGenericType` | 2 | `T[]` 写为 `Array<T>` |
+| `GenerateNamesForShadowedTypeParams` | 4 | 为被遥蔽的类型参数生成名称 |
+| `UseStructuralFallback` | 8 | 尝试结构表示 |
+| `ForbidIndexedAccessSymbolReferences` | 16 | 禁止索引访问符号引用 |
+| `WriteTypeArgumentsOfSignature` | 32 | 输出签名的类型实参 |
+| `UseFullyQualifiedType` | 64 | 使用全限定类型名 |
+| `UseOnlyExternalAliasing` | 128 | 只使用外部别名 |
+| `SuppressAnyReturnType` | 256 | 隐藏 `any` 返回类型 |
+| `WriteTypeParametersInQualifiedName` | 512 | 在限定名中写类型参数 |
+| `MultilineObjectLiterals` | 1024 | 对象类型换行 |
+| `WriteClassExpressionAsTypeLiteral` | 2048 | 类表达式写为类型字面量 |
+| `UseTypeOfFunction` | 4096 | 写为 `typeof fn` |
+| `OmitParameterModifiers` | 8192 | 省略参数修饰符 |
+| `UseAliasDefinedOutsideCurrentScope` | 16384 | 使用当前作用域外别名 |
+| `AllowThisInObjectLiteral` | 32768 | 允许对象字面量中使用 `this` |
+| `AllowQualifiedNameInPlaceOfIdentifier` | 65536 | 允许限定名代替标识符 |
+| `AllowAnonymousIdentifier` | 131072 | 允许匿名标识符 |
+| `AllowEmptyUnionOrIntersection` | 262144 | 允许空联合/交叉类型 |
+| `AllowEmptyTuple` | 524288 | 允许空元组 |
+| `AllowUniqueESSymbolType` | 1048576 | 允许 `unique symbol` |
+| `AllowEmptyIndexInfoType` | 2097152 | 允许空索引信息类型 |
+| `AllowNodeModulesRelativePaths` | 67108864 | 允许 node_modules 相对路径 |
+| `OmitThisParameter` | 33554432 | 省略 `this` 参数 |
+| `UseSingleQuotesForStringLiteralType` | 268435456 | 字符串字面量类型使用单引号 |
+| `NoTypeReduction` | 536870912 | 禁止类型化简 |
+| `InObjectTypeLiteral` | 4194304 | 在对象类型字面量内 |
+| `InTypeAlias` | 8388608 | `type` 别名内 |
+| `InInitialEntityName` | 16777216 | 初始实体名内 |
+| `IgnoreErrors` | 70221824 | 忽略错误（多个标志的复合） |
 
 ---
 
