@@ -62,6 +62,71 @@ interface Node extends ReadonlyTextRange {
 
 ---
 
+## Declaration
+
+`Declaration` 是所有**声明节点**的公共基接口，继承自 `Node`。它本身只携带一个品牌字段（用于类型系统区分），具体的名称信息由子接口 `NamedDeclaration` 进一步扩展。
+
+```ts
+interface Declaration extends Node {
+  _declarationBrand: any; // 品牌字段，仅用于类型系统区分
+}
+
+interface NamedDeclaration extends Declaration {
+  readonly name?: DeclarationName; // 声明名称（可选，匿名声明时为 undefined）
+}
+
+interface DeclarationStatement extends NamedDeclaration, Statement {
+  readonly name?: Identifier | StringLiteral | NumericLiteral; // 语句级声明的名称
+}
+```
+
+### 继承层级
+
+```
+Node
+└── Declaration
+    └── NamedDeclaration          // 带名称的声明（绝大多数声明节点）
+        └── DeclarationStatement  // 语句级声明（interface / type / enum / function 等顶层声明）
+```
+
+### 字段说明
+
+#### Declaration
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `_declarationBrand` | `any` | 品牌字段，仅用于 TypeScript 类型系统内部区分，不可实际访问 |
+
+#### NamedDeclaration
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `name` | `DeclarationName?` | 声明的名称节点，匿名声明（如匿名函数、默认导出）时为 `undefined` |
+
+#### DeclarationStatement
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `name` | `Identifier \| StringLiteral \| NumericLiteral \| undefined` | 语句级声明的名称，范围比 `NamedDeclaration.name` 更窄 |
+
+### DeclarationName 类型
+
+`DeclarationName` 是所有合法声明名称节点的联合类型：
+
+```ts
+type DeclarationName =
+  | PropertyName
+  | JsxAttributeName
+  | StringLiteralLike
+  | ElementAccessExpression
+  | BindingPattern
+  | EntityNameExpression;
+```
+
+> 常见实现 `Declaration` 的节点包括：`VariableDeclaration`、`FunctionDeclaration`、`ClassDeclaration`、`InterfaceDeclaration`、`TypeAliasDeclaration`、`EnumDeclaration`、`PropertyDeclaration`、`MethodDeclaration` 等。`SourceFile` 也实现了 `Declaration`（根节点亦视为一种声明）。
+
+---
+
 ## SyntaxKind
 
 `SyntaxKind` 是超大枚举（共约 360 个原始值），以下列出**类型系统高频值**。
@@ -126,6 +191,8 @@ interface Node extends ReadonlyTextRange {
 ---
 
 ## NodeFlags
+
+<FindNodeFlags />
 
 节点标志位，通过 `node.flags` 访问。
 

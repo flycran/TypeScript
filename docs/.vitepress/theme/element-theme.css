@@ -1,0 +1,24 @@
+/* 将 element-plus 主题色映射到 VitePress CSS 变量 */
+:root,
+html.dark {
+  --el-bg-color: var(--vp-c-bg);
+  --el-bg-color-page: var(--vp-c-bg-alt);
+  --el-bg-color-overlay: var(--vp-c-bg-elv);
+
+  --el-text-color-primary: var(--vp-c-text-1);
+  --el-text-color-regular: var(--vp-c-text-2);
+  --el-text-color-secondary: var(--vp-c-text-3);
+  --el-text-color-placeholder: var(--vp-c-text-3);
+  --el-text-color-disabled: var(--vp-c-text-3);
+
+  --el-border-color: var(--vp-c-divider);
+  --el-border-color-light: var(--vp-c-divider);
+  --el-border-color-lighter: var(--vp-c-divider);
+
+  --el-fill-color: var(--vp-c-bg-soft);
+  --el-fill-color-light: var(--vp-c-bg-soft);
+  --el-fill-color-lighter: var(--vp-c-bg-alt);
+  --el-fill-color-blank: var(--vp-c-bg);
+
+  --el-color-primary: var(--vp-c-brand-1);
+}

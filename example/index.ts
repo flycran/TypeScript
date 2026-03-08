@@ -14,9 +14,6 @@ const fileName = path.resolve(currentDirname, './program.ts');
 
 const sourceText = await fs.readFile(fileName, 'utf8');
 
-// 1. 解析单文件（仅语法，无类型）
-const sf = ts.createSourceFile(fileName, sourceText, ts.ScriptTarget.Latest, true);
-
 const host: ts.LanguageServiceHost = {
     getCompilationSettings: () => (tsconfig),
     getScriptFileNames: () => [fileName],
@@ -32,13 +29,26 @@ const host: ts.LanguageServiceHost = {
 
 const service = ts.createLanguageService(host);
 
-const definition = service.getDefinitionAtPosition(fileName, 309);
-
 const program = ts.createProgram([fileName], { strict: true });
 
 const checker = program.getTypeChecker();
 
-const symbol = checker.getSymbolAtLocation(sf);
+const sf = program.getSourceFile(fileName)!;
+
+function getNodeAt(sourceFile: ts.SourceFile, line: number, character: number): ts.Node {
+    const pos = sourceFile.getPositionOfLineAndCharacter(line, character);
+    let current: ts.Node = sourceFile;
+    while (true) {
+        const child = current.getChildren(sourceFile).find(c => c.pos <= pos && pos < c.end);
+        if (!child) break;
+        current = child;
+    }
+    return current;
+}
+
+const node = getNodeAt(sf, 18, 22);
+
+const symbol = checker.getSymbolAtLocation(node);
 
 debugger
 

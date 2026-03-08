@@ -57,6 +57,8 @@ interface Type {
 
 ## TypeFlags
 
+<FindTypeFlags />
+
 `TypeFlags` 是位掩码枚举，单个类型对象可同时拥有多个标志。
 
 ```ts

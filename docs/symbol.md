@@ -49,6 +49,8 @@ interface Symbol {
 
 ## SymbolFlags
 
+<FindSymbolFlags />
+
 `SymbolFlags` 是位掩码枚举，描述符号所在的语义空间。
 
 ### 基础标志

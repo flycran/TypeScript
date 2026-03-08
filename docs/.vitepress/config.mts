@@ -8,6 +8,18 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', href: 'https://www.typescriptlang.org/favicon-32x32.png' }]
   ],
+  vite: {
+    assetsInclude: ['**/*.d.ts'],
+    resolve: {
+      dedupe: [
+        '@codemirror/state',
+        '@codemirror/view',
+        '@codemirror/language',
+        '@lezer/common',
+        '@lezer/highlight',
+      ],
+    },
+  },
   themeConfig: {
     search: {
       provider: 'local'
@@ -21,6 +33,7 @@ export default defineConfig({
       { text: '首页', link: '/' },
       { text: 'AST 基础', link: '/ast-basics' },
       { text: '类型系统', link: '/type-interfaces' },
+      { text: 'AST Viewer', link: '/ast-viewer' },
     ],
 
     sidebar: [
